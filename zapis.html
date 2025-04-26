@@ -10,94 +10,91 @@
       padding: 20px;
     }
 
-    .appointment-form {
+    .appointment-form, .result-box {
       background-color: #ffffff;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       max-width: 500px;
       margin: auto;
+      display: none;
     }
 
-    table {
+    .appointment-form.active, .result-box.active {
+      display: block;
+    }
+
+    input, select, textarea, button {
       width: 100%;
-    }
-
-    td {
       padding: 10px;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 8px;
+      margin-top: 10px;
+      border-radius: 5px;
       border: 1px solid #ccc;
-      border-radius: 5px;
     }
 
-    .effective-button {
-      display: inline-block;
-      text-align: center;
-      margin-top: 15px;
-      width: 100%;
-      padding: 10px;
-      background-color: #4CAF50;
+    button {
+      background-color: #ff0000;
       color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      font-size: 16px;
-      transition: background-color 0.3s;
-    }
-
-    .effective-button:hover {
-      background-color: #45a049;
+      font-weight: bold;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-<div class="appointment-form">
+<div class="appointment-form active" id="form-box">
   <h2>Запис на прийом</h2>
-  <form action="#">
-    <table>
-      <tr>
-        <td>Ім'я:</td>
-        <td><input type="text" name="name" required></td>
-      </tr>
-      <tr>
-        <td>Телефон:</td>
-        <td><input type="tel" name="phone" required></td>
-      </tr>
-      <tr>
-        <td>Дата:</td>
-        <td><input type="date" name="date" required></td>
-      </tr>
-      <tr>
-        <td>Час:</td>
-        <td><input type="time" name="time" required></td>
-      </tr>
-      <tr>
-        <td>Послуга:</td>
-        <td>
-          <select name="service" required>
-            <option value="">Оберіть послугу</option>
-            <option value="Консультація">Консультація</option>
-            <option value="Лікування">Лікування</option>
-            <option value="Діагностика">Діагностика</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td>Коментар:</td>
-        <td><textarea name="comment" rows="3" placeholder="Ваші побажання..."></textarea></td>
-      </tr>
-    </table>
-
-    <!-- <a> виглядає як кнопка -->
-    <a href="./dakyi.html" class="effective-button">Замовити послугу</a>
-
+  <form id="appointmentForm">
+    <input type="text" name="name" placeholder="Ім’я" required>
+    <input type="tel" name="phone" placeholder="Телефон" required>
+    <input type="date" name="date" required>
+    <input type="time" name="time" required>
+    <select name="service" required>
+      <option value="">Оберіть послугу</option>
+      <option value="Консультація">Консультація</option>
+      <option value="Лікування">Лікування</option>
+      <option value="Діагностика">Діагностика</option>
+    </select>
+    <textarea name="comment" rows="3" placeholder="Коментар"></textarea>
+    <button type="submit">Замовити</button>
   </form>
 </div>
 
+<div class="result-box" id="result-box">
+  <h2>Дякуємо за запис!</h2>
+  <p><strong>Ім’я:</strong> <span id="res-name"></span></p>
+  <p><strong>Телефон:</strong> <span id="res-phone"></span></p>
+  <p><strong>Дата:</strong> <span id="res-date"></span></p>
+  <p><strong>Час:</strong> <span id="res-time"></span></p>
+  <p><strong>Послуга:</strong> <span id="res-service"></span></p>
+  <p><strong>Коментар:</strong> <span id="res-comment"></span></p>
+</div>
+
+<script>
+  document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // не перезагружаем страницу
+
+    // Получаем значения из формы
+    const name = this.name.value;
+    const phone = this.phone.value;
+    const date = this.date.value;
+    const time = this.time.value;
+    const service = this.service.value;
+    const comment = this.comment.value;
+
+    // Заполняем результат
+    document.getElementById('res-name').textContent = name;
+    document.getElementById('res-phone').textContent = phone;
+    document.getElementById('res-date').textContent = date;
+    document.getElementById('res-time').textContent = time;
+    document.getElementById('res-service').textContent = service;
+    document.getElementById('res-comment').textContent = comment;
+
+    // Показываем результат и скрываем форму
+    document.getElementById('form-box').classList.remove('active');
+    document.getElementById('result-box').classList.add('active');
+  });
+</script>
+
 </body>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </html>
